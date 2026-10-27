@@ -1,0 +1,11 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/LoadMonitor.Web/LoadMonitor.Web.csproj" />
+  </Folder>
+  <Folder Name="/src/Modules/">
+    <Project Path="src/Modules/LoadMonitor.Core/LoadMonitor.Core.csproj" />
+  </Folder>
+  <Folder Name="/src/Themes/">
+    <Project Path="src/Themes/LoadMonitor.Theme/LoadMonitor.Theme.csproj" />
+  </Folder>
+</Solution>
