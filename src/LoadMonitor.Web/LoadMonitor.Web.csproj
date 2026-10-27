@@ -8,7 +8,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="wwwroot\" />
     <Folder Include="Localization\" />
   </ItemGroup>
 
@@ -19,6 +18,14 @@
   <!-- Watcher include and excludes -->
   <ItemGroup>
       <Watch Include="**\*.cs" Exclude="Recipes\**;Assets\**;node_modules\**\*;**\*.js.map;obj\**\*;bin\**\*" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Remove="wwwroot\Images\motor1.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="wwwroot\Images\motor1.jpg">
+      <CopyToPublishDirectory>Never</CopyToPublishDirectory>
+    </EmbeddedResource>
   </ItemGroup>
 
   <ItemGroup>

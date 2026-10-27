@@ -16,7 +16,7 @@ public sealed class Startup : StartupBase
         routes.MapAreaControllerRoute(
             name: "Home",
             areaName: "LoadMonitor.Core",
-            pattern: "Home/Index",
+            pattern: "",
             defaults: new { controller = "Home", action = "Index" }
         );
     }

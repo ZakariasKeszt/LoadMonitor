@@ -1,1 +1,61 @@
-﻿Template
+﻿@model LoadMonitor.Core.Models.AssetModel
+
+<style>
+    .lm-title {
+        text-align: center;
+        font-size: 3rem;
+        font-weight: normal;
+        margin: 24px 0;
+    }
+
+    .lm-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 24px;
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 16px;
+    }
+
+    .lm-card {
+        min-height: 250px;
+        border: 3px solid #000;
+        border-radius: 60px;
+        padding: 24px 40px;
+        display: flex;
+        align-items: center;
+        gap: 40px;
+        font-size: 1.1rem;
+    }
+
+    .lm-card-image {
+        width: 150px;
+        height: 150px;
+        object-fit: fill;
+        flex-shrink: 0;
+    }
+
+    .lm-card-info {
+        line-height: 1.6;
+        white-space: nowrap;
+    }
+</style>
+
+
+
+<h1 class="lm-title">Load Monitor</h1>
+
+<div class="lm-grid">
+	@foreach (var asset in Model.Assets)
+	{
+        <div class="lm-card">
+            <img class="lm-card-image" src="@Url.Content(@asset.ImagePath)" alt="@asset.Name" />
+            <div class="lm-card-info">
+                <div>Appliance name: @asset.Name</div>
+                <div>Power: @asset.PowerKw kW</div>
+                <div>Current power draw: @asset.CurrentPowerW W</div>
+                <div>Running time: @asset.RunningHours h</div>
+            </div>
+        </div>
+	}
+</div>
