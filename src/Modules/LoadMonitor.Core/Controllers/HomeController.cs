@@ -33,6 +33,15 @@ public sealed class HomeController : Controller
                     RunningHours = 120,
                     ImagePath = "~/Images/motor2.jpg",
                 },
+                
+                new AssetModel.Asset
+                {
+                    Name = "Pump",
+                    PowerKw = 30,
+                    CurrentPowerW = 24000,
+                    RunningHours = 1230,
+                    ImagePath = "~/Images/Pump.jpg",
+                },
             ],
 
         };
