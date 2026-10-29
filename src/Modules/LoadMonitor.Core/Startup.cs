@@ -19,6 +19,13 @@ public sealed class Startup : StartupBase
             pattern: "",
             defaults: new { controller = "Home", action = "Index" }
         );
+
+        routes.MapAreaControllerRoute(
+            name: "AssetDetails",
+            areaName: "LoadMonitor.Core",
+            pattern: "assets/{id:int}",
+            defaults: new {controller = "Asset", action = "Details"}
+        );
     }
 }
 

@@ -349,47 +349,50 @@
     </section>
 
     <section class="lm-grid">
-        @foreach (var asset in Model.Assets)
+        @for (var i = 0; i < Model.Assets.Count; i++)
         {
+            var asset = Model.Assets[i];
             var ratedW = asset.PowerKw * 1000;
             var load = ratedW > 0 ? Math.Min(asset.CurrentPowerW / ratedW * 100, 100) : 0;
             var state = asset.CurrentPowerW <= 0 ? "idle" : load >= 90 ? "high" : "running";
             var stateClass = state == "idle" ? "" : "is-" + state;
             var stateText = state == "idle" ? "Idle" : state == "high" ? "High load" : "Running";
 
-            <article class="lm-card @stateClass">
-                <div class="lm-card-image">
-                    <img src="@Url.Content(asset.ImagePath)" alt="@asset.Name" />
-                </div>
-
-                <div class="lm-card-body">
-                    <div class="lm-card-head">
-                        <h2 class="lm-card-name">@asset.Name</h2>
-                        <span class="lm-pill">@stateText</span>
+            <a class="lm-card-link" href="~/assets/@i">
+                <article class="lm-card @stateClass">
+                    <div class="lm-card-image">
+                        <img src="@Url.Content(asset.ImagePath)" alt="@asset.Name" />
                     </div>
 
-                    <div class="lm-draw">
-                        @asset.CurrentPowerW.ToString("N0", inv)<small>W</small>
-                    </div>
-
-                    <div class="lm-bar" role="progressbar" aria-label="Load"
-                         aria-valuemin="0" aria-valuemax="100" aria-valuenow="@load.ToString("0", inv)">
-                        <div class="lm-bar-fill" style="width: @load.ToString("0.#", inv)%"></div>
-                    </div>
-                    <div class="lm-bar-label">@load.ToString("0", inv)% of rated power</div>
-
-                    <div class="lm-meta">
-                        <div>
-                            <div class="lm-meta-label">Rated power</div>
-                            <div class="lm-meta-value">@asset.PowerKw.ToString("0.#", inv) kW</div>
+                    <div class="lm-card-body">
+                        <div class="lm-card-head">
+                            <h2 class="lm-card-name">@asset.Name</h2>
+                            <span class="lm-pill">@stateText</span>
                         </div>
-                        <div>
-                            <div class="lm-meta-label">Running time</div>
-                            <div class="lm-meta-value">@asset.RunningHours.ToString("N0", inv) h</div>
+
+                        <div class="lm-draw">
+                            @asset.CurrentPowerW.ToString("N0", inv)<small>W</small>
+                        </div>
+
+                        <div class="lm-bar" role="progressbar" aria-label="Load"
+                             aria-valuemin="0" aria-valuemax="100" aria-valuenow="@load.ToString("0", inv)">
+                            <div class="lm-bar-fill" style="width: @load.ToString("0.#", inv)%"></div>
+                        </div>
+                        <div class="lm-bar-label">@load.ToString("0", inv)% of rated power</div>
+
+                        <div class="lm-meta">
+                            <div>
+                                <div class="lm-meta-label">Rated power</div>
+                                <div class="lm-meta-value">@asset.PowerKw.ToString("0.#", inv) kW</div>
+                            </div>
+                            <div>
+                                <div class="lm-meta-label">Running time</div>
+                                <div class="lm-meta-value">@asset.RunningHours.ToString("N0", inv) h</div>
+                            </div>
                         </div>
                     </div>
-                </div>
-            </article>
+                </article>
+            </a>
         }
     </section>
 </div>
