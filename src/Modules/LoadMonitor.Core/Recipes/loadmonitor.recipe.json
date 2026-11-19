@@ -1,0 +1,1038 @@
+{
+  "name": "LoadMonitor",
+  "displayName": "LoadMonitor",
+  "description": "Sets up the LoadMonitor assets and home page.",
+  "author": "Zakarias Keszthelyi",
+  "website": "",
+  "version": "1.0",
+  "issetuprecipe": true,
+  "categories": [ "default" ],
+  "tags": [],
+  "steps": [
+    {
+      "name": "feature",
+      "disable": [],
+      "enable": [
+        "OrchardCore.Admin",
+        "TheAdmin",
+        "OrchardCore.Themes",
+        "OrchardCore.Settings",
+        "OrchardCore.Features",
+        "OrchardCore.Recipes",
+        "OrchardCore.Resources",
+        "OrchardCore.Navigation",
+        "OrchardCore.Users",
+        "OrchardCore.Roles",
+        "OrchardCore.Contents",
+        "OrchardCore.ContentTypes",
+        "OrchardCore.ContentFields",
+        "OrchardCore.Title",
+        "OrchardCore.Autoroute",
+        "OrchardCore.Liquid",
+        "OrchardCore.Taxonomies",
+        "OrchardCore.Media",
+        "OrchardCore.Queries",
+        "OrchardCore.Queries.Sql",
+        "LoadMonitor.Core",
+        "LoadMonitor.Theme"
+      ]
+    },
+    {
+      "name": "themes",
+      "admin": "TheAdmin",
+      "site": "LoadMonitor.Theme"
+    },
+    {
+      "name": "ContentDefinition",
+      "ContentTypes": [
+        {
+          "Name": "Menu",
+          "DisplayName": "Menu",
+          "Settings": {
+            "ContentTypeSettings": {
+              "Listable": true,
+              "Draftable": true,
+              "Versionable": true
+            }
+          },
+          "ContentTypePartDefinitionRecords": [
+            {
+              "PartName": "TitlePart",
+              "Name": "TitlePart",
+              "Settings": {
+                "ContentTypePartSettings": {
+                  "Position": "0"
+                }
+              }
+            },
+            {
+              "PartName": "AliasPart",
+              "Name": "AliasPart",
+              "Settings": {
+                "AliasPartSettings": {
+                  "Pattern": "{{ ContentItem | display_text | slugify }}"
+                },
+                "ContentTypePartSettings": {
+                  "Position": "1"
+                }
+              }
+            },
+            {
+              "PartName": "MenuPart",
+              "Name": "MenuPart",
+              "Settings": {
+                "ContentTypePartSettings": {
+                  "Position": "2"
+                }
+              }
+            },
+            {
+              "PartName": "MenuItemsListPart",
+              "Name": "MenuItemsListPart",
+              "Settings": {}
+            }
+          ]
+        },
+        {
+          "Name": "LinkMenuItem",
+          "DisplayName": "Link Menu Item",
+          "Settings": {
+            "ContentTypeSettings": {
+              "Stereotype": "MenuItem"
+            }
+          },
+          "ContentTypePartDefinitionRecords": [
+            {
+              "PartName": "LinkMenuItemPart",
+              "Name": "LinkMenuItemPart",
+              "Settings": {
+                "ContentTypePartSettings": {
+                  "Position": "0"
+                }
+              }
+            },
+            {
+              "PartName": "LinkMenuItem",
+              "Name": "LinkMenuItem",
+              "Settings": {
+                "ContentTypePartSettings": {
+                  "Position": "1"
+                }
+              }
+            },
+            {
+              "PartName": "MenuItemPermissionPart",
+              "Name": "MenuItemPermissionPart",
+              "Settings": {
+                "ContentTypePartSettings": {
+                  "Position": "2"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "Name": "ContentMenuItem",
+          "DisplayName": "Content Menu Item",
+          "Settings": {
+            "ContentTypeSettings": {
+              "Stereotype": "MenuItem"
+            },
+            "FullTextAspectSettings": {}
+          },
+          "ContentTypePartDefinitionRecords": [
+            {
+              "PartName": "ContentMenuItemPart",
+              "Name": "ContentMenuItemPart",
+              "Settings": {
+                "ContentTypePartSettings": {
+                  "Position": "0"
+                }
+              }
+            },
+            {
+              "PartName": "ContentMenuItem",
+              "Name": "ContentMenuItem",
+              "Settings": {
+                "ContentTypePartSettings": {
+                  "Position": "1"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "Name": "HtmlMenuItem",
+          "DisplayName": "Html Menu Item",
+          "Settings": {
+            "ContentTypeSettings": {
+              "Stereotype": "MenuItem"
+            },
+            "FullTextAspectSettings": {}
+          },
+          "ContentTypePartDefinitionRecords": [
+            {
+              "PartName": "HtmlMenuItemPart",
+              "Name": "HtmlMenuItemPart",
+              "Settings": {
+                "ContentTypePartSettings": {
+                  "Position": "0"
+                }
+              }
+            },
+            {
+              "PartName": "HtmlMenuItem",
+              "Name": "HtmlMenuItem",
+              "Settings": {
+                "ContentTypePartSettings": {
+                  "Position": "1"
+                }
+              }
+            },
+            {
+              "PartName": "MenuItemPermissionPart",
+              "Name": "MenuItemPermissionPart",
+              "Settings": {
+                "ContentTypePartSettings": {
+                  "Position": "2"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "Name": "Taxonomy",
+          "DisplayName": "Taxonomy",
+          "Settings": {
+            "ContentTypeSettings": {
+              "Creatable": true,
+              "Listable": true,
+              "Draftable": true,
+              "Versionable": true,
+              "Securable": false
+            }
+          },
+          "ContentTypePartDefinitionRecords": [
+            {
+              "PartName": "TitlePart",
+              "Name": "TitlePart",
+              "Settings": {
+                "ContentTypePartSettings": {
+                  "Position": "1"
+                }
+              }
+            },
+            {
+              "PartName": "AliasPart",
+              "Name": "AliasPart",
+              "Settings": {
+                "ContentTypePartSettings": {
+                  "Position": "2"
+                },
+                "AliasPartSettings": {
+                  "Pattern": "{{ Model.ContentItem | display_text | slugify }}"
+                }
+              }
+            },
+            {
+              "PartName": "AutoroutePart",
+              "Name": "AutoroutePart",
+              "Settings": {
+                "ContentTypePartSettings": {
+                  "Position": "3"
+                },
+                "AutoroutePartSettings": {
+                  "Pattern": "{{ Model.ContentItem | display_text | slugify }}",
+                  "AllowRouteContainedItems": true
+                }
+              }
+            },
+            {
+              "PartName": "TaxonomyPart",
+              "Name": "TaxonomyPart",
+              "Settings": {
+                "ContentTypePartSettings": {
+                  "Position": "4"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "Name": "Asset",
+          "DisplayName": "Asset",
+          "Settings": {
+            "ContentTypeSettings": {
+              "Creatable": true,
+              "Listable": true,
+              "Draftable": true,
+              "Versionable": true,
+              "Securable": true,
+              "ThumbnailPath": "~/OrchardCore.ContentTypes/placeholder.png"
+            },
+            "FullTextAspectSettings": {
+              "IncludeFullTextTemplate": false,
+              "IncludeBodyAspect": true,
+              "IncludeDisplayText": true
+            }
+          },
+          "ContentTypePartDefinitionRecords": [
+            {
+              "PartName": "Asset",
+              "Name": "Asset",
+              "Settings": {
+                "ContentTypePartSettings": {
+                  "Position": "3"
+                }
+              }
+            },
+            {
+              "PartName": "AutoroutePart",
+              "Name": "AutoroutePart",
+              "Settings": {
+                "ContentTypePartSettings": {
+                  "Position": "0"
+                }
+              }
+            },
+            {
+              "PartName": "CommonPart",
+              "Name": "CommonPart",
+              "Settings": {
+                "ContentTypePartSettings": {
+                  "Position": "1"
+                }
+              }
+            },
+            {
+              "PartName": "TitlePart",
+              "Name": "TitlePart",
+              "Settings": {
+                "ContentTypePartSettings": {
+                  "Position": "2"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "Name": "Category",
+          "DisplayName": "Category",
+          "Settings": {
+            "ContentTypeSettings": {
+              "Creatable": true,
+              "Listable": true,
+              "Draftable": true,
+              "Versionable": true,
+              "Securable": true,
+              "ThumbnailPath": "~/OrchardCore.ContentTypes/placeholder.png"
+            }
+          },
+          "ContentTypePartDefinitionRecords": [
+            {
+              "PartName": "Category",
+              "Name": "Category",
+              "Settings": {}
+            },
+            {
+              "PartName": "TitlePart",
+              "Name": "TitlePart",
+              "Settings": {
+                "ContentTypePartSettings": {
+                  "Position": "1"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "Name": "Page",
+          "DisplayName": "Page",
+          "Settings": {
+            "ContentTypeSettings": {
+              "Creatable": true,
+              "Listable": true,
+              "Draftable": true,
+              "Versionable": true,
+              "Securable": true,
+              "ThumbnailPath": "~/OrchardCore.ContentTypes/placeholder.png"
+            }
+          },
+          "ContentTypePartDefinitionRecords": [
+            {
+              "PartName": "Page",
+              "Name": "Page",
+              "Settings": {}
+            },
+            {
+              "PartName": "AutoroutePart",
+              "Name": "AutoroutePart",
+              "Settings": {
+                "ContentTypePartSettings": {
+                  "DisplayName": "Autoroute",
+                  "Position": "1"
+                },
+                "AutoroutePartSettings": {
+                  "AllowCustomPath": false,
+                  "Pattern": "{{ ContentItem.DisplayText | slugify }}",
+                  "ShowHomepageOption": true,
+                  "AllowUpdatePath": false,
+                  "AllowDisabled": false,
+                  "AllowRouteContainedItems": false,
+                  "ManageContainedItemRoutes": false,
+                  "AllowAbsolutePath": false
+                }
+              }
+            },
+            {
+              "PartName": "LiquidPart",
+              "Name": "LiquidPart",
+              "Settings": {
+                "ContentTypePartSettings": {
+                  "Position": "2"
+                }
+              }
+            },
+            {
+              "PartName": "TitlePart",
+              "Name": "TitlePart",
+              "Settings": {
+                "ContentTypePartSettings": {
+                  "Position": "3"
+                }
+              }
+            }
+          ]
+        }
+      ],
+      "ContentParts": [
+        {
+          "Name": "LiquidPart",
+          "Settings": {
+            "ContentPartSettings": {
+              "Attachable": true,
+              "Reusable": false,
+              "Description": "Provides a Liquid formatted body for your content item."
+            }
+          },
+          "ContentPartFieldDefinitionRecords": []
+        },
+        {
+          "Name": "CommonPart",
+          "Settings": {
+            "ContentPartSettings": {
+              "Attachable": true,
+              "Reusable": false,
+              "Description": "Provides an editor for the common properties of a content item."
+            }
+          },
+          "ContentPartFieldDefinitionRecords": []
+        },
+        {
+          "Name": "HtmlBodyPart",
+          "Settings": {
+            "ContentPartSettings": {
+              "Attachable": true,
+              "Reusable": false,
+              "Description": "Provides an HTML Body for your content item."
+            }
+          },
+          "ContentPartFieldDefinitionRecords": []
+        },
+        {
+          "Name": "TitlePart",
+          "Settings": {
+            "ContentPartSettings": {
+              "Attachable": true,
+              "Reusable": false,
+              "Description": "Provides a Title for your content item.",
+              "DefaultPosition": "0"
+            }
+          },
+          "ContentPartFieldDefinitionRecords": []
+        },
+        {
+          "Name": "AliasPart",
+          "Settings": {
+            "ContentPartSettings": {
+              "Attachable": true,
+              "Reusable": false,
+              "Description": "Provides a way to define custom aliases for content items."
+            }
+          },
+          "ContentPartFieldDefinitionRecords": []
+        },
+        {
+          "Name": "AutoroutePart",
+          "Settings": {
+            "ContentPartSettings": {
+              "Attachable": true,
+              "Reusable": false,
+              "Description": "Provides a custom url for your content item."
+            }
+          },
+          "ContentPartFieldDefinitionRecords": []
+        },
+        {
+          "Name": "PreviewPart",
+          "Settings": {
+            "ContentPartSettings": {
+              "Attachable": true,
+              "Reusable": false,
+              "Description": "Provides a way to define the url that is used to render your content item for preview. You only need to use this for the content preview feature when running the frontend decoupled from the admin."
+            }
+          },
+          "ContentPartFieldDefinitionRecords": []
+        },
+        {
+          "Name": "WidgetsListPart",
+          "Settings": {
+            "ContentPartSettings": {
+              "Attachable": true,
+              "Reusable": false,
+              "Description": "Provides a way to add widgets to Layout zones for your content item."
+            }
+          },
+          "ContentPartFieldDefinitionRecords": []
+        },
+        {
+          "Name": "FlowPart",
+          "Settings": {
+            "ContentPartSettings": {
+              "Attachable": true,
+              "Reusable": false,
+              "Description": "Provides a customizable body for your content item where you can build a content structure with widgets."
+            }
+          },
+          "ContentPartFieldDefinitionRecords": []
+        },
+        {
+          "Name": "BagPart",
+          "Settings": {
+            "ContentPartSettings": {
+              "Attachable": true,
+              "Reusable": true,
+              "Description": "Provides a collection behavior for your content item where you can place other content items."
+            }
+          },
+          "ContentPartFieldDefinitionRecords": []
+        },
+        {
+          "Name": "ListPart",
+          "Settings": {
+            "ContentPartSettings": {
+              "Attachable": true,
+              "Reusable": false,
+              "Description": "Add a list behavior."
+            }
+          },
+          "ContentPartFieldDefinitionRecords": []
+        },
+        {
+          "Name": "MarkdownBodyPart",
+          "Settings": {
+            "ContentPartSettings": {
+              "Attachable": true,
+              "Reusable": false,
+              "Description": "Provides a Markdown formatted body for your content item."
+            }
+          },
+          "ContentPartFieldDefinitionRecords": []
+        },
+        {
+          "Name": "MenuPart",
+          "Settings": {},
+          "ContentPartFieldDefinitionRecords": []
+        },
+        {
+          "Name": "MenuItemPart",
+          "Settings": {},
+          "ContentPartFieldDefinitionRecords": []
+        },
+        {
+          "Name": "LinkMenuItemPart",
+          "Settings": {
+            "ContentPartSettings": {
+              "Attachable": true,
+              "Description": "Provides a menu link behavior for your content item."
+            }
+          },
+          "ContentPartFieldDefinitionRecords": []
+        },
+        {
+          "Name": "ContentMenuItemPart",
+          "Settings": {
+            "ContentPartSettings": {
+              "Attachable": true,
+              "DisplayName": "Content Menu Item",
+              "Description": "Provides a menu link behavior with the Content Picker for your content item."
+            }
+          },
+          "ContentPartFieldDefinitionRecords": [
+            {
+              "FieldName": "ContentPickerField",
+              "Name": "SelectedContentItem",
+              "Settings": {
+                "ContentPartFieldSettings": {
+                  "DisplayName": "Selected Content Item",
+                  "Position": "0"
+                },
+                "ContentPickerFieldSettings": {
+                  "Required": true,
+                  "DisplayAllContentTypes": true,
+                  "DisplayedContentTypes": []
+                }
+              }
+            }
+          ]
+        },
+        {
+          "Name": "HtmlMenuItemPart",
+          "Settings": {
+            "ContentPartSettings": {
+              "Attachable": true,
+              "DisplayName": "Html Menu Item",
+              "Description": "Provides a menu link behavior with a field to display html for the link text."
+            }
+          },
+          "ContentPartFieldDefinitionRecords": []
+        },
+        {
+          "Name": "MenuItemPermissionPart",
+          "Settings": {
+            "ContentPartSettings": {
+              "Attachable": true,
+              "Description": "Provides a permission for the menu item."
+            }
+          },
+          "ContentPartFieldDefinitionRecords": []
+        },
+        {
+          "Name": "Asset",
+          "Settings": {},
+          "ContentPartFieldDefinitionRecords": [
+            {
+              "FieldName": "NumericField",
+              "Name": "RatedPowerkW",
+              "Settings": {
+                "ContentPartFieldSettings": {
+                  "DisplayName": "Rated Power (kW)",
+                  "Position": "0"
+                },
+                "NumericFieldSettings": {
+                  "Scale": 0,
+                  "Required": true
+                }
+              }
+            },
+            {
+              "FieldName": "NumericField",
+              "Name": "CurrentPowerW",
+              "Settings": {
+                "ContentPartFieldSettings": {
+                  "DisplayName": "Current Power (W)",
+                  "Position": "1"
+                },
+                "NumericFieldSettings": {
+                  "Scale": 0,
+                  "Required": true
+                }
+              }
+            },
+            {
+              "FieldName": "NumericField",
+              "Name": "RunningHours",
+              "Settings": {
+                "ContentPartFieldSettings": {
+                  "DisplayName": "Running Hours",
+                  "Position": "2"
+                },
+                "NumericFieldSettings": {
+                  "Scale": 0,
+                  "Required": true
+                }
+              }
+            },
+            {
+              "FieldName": "MediaField",
+              "Name": "Image",
+              "Settings": {
+                "ContentPartFieldSettings": {
+                  "DisplayName": "Image",
+                  "Position": "3"
+                },
+                "MediaFieldSettings": {
+                  "Multiple": true,
+                  "AllowMediaText": true,
+                  "AllowAnchors": false,
+                  "AllowedExtensions": [],
+                  "Required": true
+                }
+              }
+            },
+            {
+              "FieldName": "TaxonomyField",
+              "Name": "Category",
+              "Settings": {
+                "ContentPartFieldSettings": {
+                  "DisplayName": "Category",
+                  "Position": "4"
+                },
+                "TaxonomyFieldSettings": {
+                  "TaxonomyContentItemId": "4gnz31h2rt6j0x90chzdbqqcn0",
+                  "Unique": false,
+                  "LeavesOnly": false,
+                  "Open": false,
+                  "Required": true
+                }
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Content",
+      "data": [
+        {
+          "ContentItemId": "4gnz31h2rt6j0x90chzdbqqcn0",
+          "ContentItemVersionId": "436ks2vxz0bdw5ct5q478ehe41",
+          "ContentType": "Taxonomy",
+          "DisplayText": "Asset Categories",
+          "Latest": true,
+          "Published": true,
+          "ModifiedUtc": "2026-11-19T10:06:32.9491518Z",
+          "PublishedUtc": "2026-11-19T10:06:32.950731Z",
+          "CreatedUtc": "2026-11-19T09:37:54.9554905Z",
+          "Owner": "4x612x4zgm385s6t0nn79qpy52",
+          "Author": "sudouser",
+          "TitlePart": {
+            "Title": "Asset Categories"
+          },
+          "AliasPart": {
+            "Alias": "asset-categories"
+          },
+          "AutoroutePart": {
+            "SetHomepage": false,
+            "Disabled": false,
+            "RouteContainedItems": false,
+            "Absolute": false,
+            "Path": "asset-categories"
+          },
+          "TaxonomyPart": {
+            "Terms": [
+              {
+                "ContentItemId": "4w9nb9d2c7286ty5v2rbe7kc4j",
+                "ContentItemVersionId": null,
+                "ContentType": "Category",
+                "DisplayText": "Pump",
+                "Latest": false,
+                "Published": false,
+                "ModifiedUtc": null,
+                "PublishedUtc": null,
+                "CreatedUtc": null,
+                "Owner": "4x612x4zgm385s6t0nn79qpy52",
+                "Author": "sudouser",
+                "Category": {},
+                "TitlePart": {
+                  "Title": "Pump"
+                },
+                "TermPart": {
+                  "TaxonomyContentItemId": "4gnz31h2rt6j0x90chzdbqqcn0"
+                },
+                "@WeldedPartSettings": {
+                  "TermPart": {}
+                }
+              },
+              {
+                "ContentItemId": "4neydm1cvfgavv7ed09pgz7mmz",
+                "ContentItemVersionId": null,
+                "ContentType": "Category",
+                "DisplayText": "Motor",
+                "Latest": false,
+                "Published": false,
+                "ModifiedUtc": null,
+                "PublishedUtc": null,
+                "CreatedUtc": null,
+                "Owner": "4x612x4zgm385s6t0nn79qpy52",
+                "Author": "sudouser",
+                "Category": {},
+                "TitlePart": {
+                  "Title": "Motor"
+                },
+                "TermPart": {
+                  "TaxonomyContentItemId": "4gnz31h2rt6j0x90chzdbqqcn0"
+                },
+                "@WeldedPartSettings": {
+                  "TermPart": {}
+                }
+              }
+            ],
+            "TermContentType": "Category"
+          }
+        },
+        {
+          "ContentItemId": "4xvmrm1qhc5dty0ksn6jrcj34w",
+          "ContentItemVersionId": "4w5fxcv6ja5a6t78kj6kft0cwt",
+          "ContentType": "Asset",
+          "DisplayText": "Pump 1",
+          "Latest": true,
+          "Published": true,
+          "ModifiedUtc": "2026-11-19T10:09:18.6743278Z",
+          "PublishedUtc": "2026-11-19T10:09:18.6747115Z",
+          "CreatedUtc": "2026-11-19T09:39:23.9897372Z",
+          "Owner": "4x612x4zgm385s6t0nn79qpy52",
+          "Author": "sudouser",
+          "Asset": {
+            "RatedPowerkW": {
+              "Value": 12
+            },
+            "CurrentPowerW": {
+              "Value": 1212
+            },
+            "RunningHours": {
+              "Value": 123123
+            },
+            "Image": {
+              "Paths": [
+                "Pump.png"
+              ],
+              "MediaTexts": [
+                ""
+              ]
+            },
+            "Category": {
+              "TermContentItemIds": [
+                "4w9nb9d2c7286ty5v2rbe7kc4j"
+              ],
+              "TaxonomyContentItemId": "4gnz31h2rt6j0x90chzdbqqcn0"
+            }
+          },
+          "AutoroutePart": {
+            "SetHomepage": false,
+            "Disabled": false,
+            "RouteContainedItems": false,
+            "Absolute": false,
+            "Path": "pump-1"
+          },
+          "CommonPart": {},
+          "TitlePart": {
+            "Title": "Pump 1"
+          }
+        },
+        {
+          "ContentItemId": "4fy2amnttc77e2fpf37mxzwsnz",
+          "ContentItemVersionId": "4saj2gg66tnsmy8bby4p61aycg",
+          "ContentType": "Asset",
+          "DisplayText": "Pump 2",
+          "Latest": true,
+          "Published": true,
+          "ModifiedUtc": "2026-11-19T10:09:22.7492847Z",
+          "PublishedUtc": "2026-11-19T10:09:22.7498866Z",
+          "CreatedUtc": "2026-11-19T09:39:16.4128419Z",
+          "Owner": "4x612x4zgm385s6t0nn79qpy52",
+          "Author": "sudouser",
+          "Asset": {
+            "RatedPowerkW": {
+              "Value": 12
+            },
+            "CurrentPowerW": {
+              "Value": 1212
+            },
+            "RunningHours": {
+              "Value": 121212
+            },
+            "Image": {
+              "Paths": [
+                "Pump.png"
+              ],
+              "MediaTexts": [
+                ""
+              ]
+            },
+            "Category": {
+              "TermContentItemIds": [
+                "4w9nb9d2c7286ty5v2rbe7kc4j"
+              ],
+              "TaxonomyContentItemId": "4gnz31h2rt6j0x90chzdbqqcn0"
+            }
+          },
+          "AutoroutePart": {
+            "SetHomepage": false,
+            "Disabled": false,
+            "RouteContainedItems": false,
+            "Absolute": false,
+            "Path": "pump-2"
+          },
+          "CommonPart": {},
+          "TitlePart": {
+            "Title": "Pump 2"
+          }
+        },
+        {
+          "ContentItemId": "412kygz63cayr609h3afkkcvnr",
+          "ContentItemVersionId": "4ja8w3dpepgbf3rbb51srec94x",
+          "ContentType": "Asset",
+          "DisplayText": "Motor 1",
+          "Latest": true,
+          "Published": true,
+          "ModifiedUtc": "2026-11-19T10:09:25.8429447Z",
+          "PublishedUtc": "2026-11-19T10:09:25.8433222Z",
+          "CreatedUtc": "2026-11-19T09:39:34.834895Z",
+          "Owner": "4x612x4zgm385s6t0nn79qpy52",
+          "Author": "sudouser",
+          "Asset": {
+            "RatedPowerkW": {
+              "Value": 13
+            },
+            "CurrentPowerW": {
+              "Value": 1300
+            },
+            "RunningHours": {
+              "Value": 13030
+            },
+            "Image": {
+              "Paths": [
+                "motor1.png"
+              ],
+              "MediaTexts": [
+                ""
+              ]
+            },
+            "Category": {
+              "TermContentItemIds": [
+                "4neydm1cvfgavv7ed09pgz7mmz"
+              ],
+              "TaxonomyContentItemId": "4gnz31h2rt6j0x90chzdbqqcn0"
+            }
+          },
+          "AutoroutePart": {
+            "SetHomepage": false,
+            "Disabled": false,
+            "RouteContainedItems": false,
+            "Absolute": false,
+            "Path": "motor-1"
+          },
+          "CommonPart": {},
+          "TitlePart": {
+            "Title": "Motor 1"
+          }
+        },
+        {
+          "ContentItemId": "4nq2hefmt0yaq37wds9rmwz1m4",
+          "ContentItemVersionId": "4p0dh9wrphzs706wmhjk0g6nc8",
+          "ContentType": "Asset",
+          "DisplayText": "Motor 2",
+          "Latest": true,
+          "Published": true,
+          "ModifiedUtc": "2026-11-19T10:09:28.8678066Z",
+          "PublishedUtc": "2026-11-19T10:09:28.8683395Z",
+          "CreatedUtc": "2026-11-19T09:39:40.284518Z",
+          "Owner": "4x612x4zgm385s6t0nn79qpy52",
+          "Author": "sudouser",
+          "Asset": {
+            "RatedPowerkW": {
+              "Value": 13
+            },
+            "CurrentPowerW": {
+              "Value": 1313
+            },
+            "RunningHours": {
+              "Value": 131313
+            },
+            "Image": {
+              "Paths": [
+                "motor1.png"
+              ],
+              "MediaTexts": [
+                ""
+              ]
+            },
+            "Category": {
+              "TermContentItemIds": [
+                "4neydm1cvfgavv7ed09pgz7mmz"
+              ],
+              "TaxonomyContentItemId": "4gnz31h2rt6j0x90chzdbqqcn0"
+            }
+          },
+          "AutoroutePart": {
+            "SetHomepage": false,
+            "Disabled": false,
+            "RouteContainedItems": false,
+            "Absolute": false,
+            "Path": "motor-2"
+          },
+          "CommonPart": {},
+          "TitlePart": {
+            "Title": "Motor 2"
+          }
+        },
+        {
+          "ContentItemId": "4p85gv75ethse6agnmh2bhcpcw",
+          "ContentItemVersionId": "43kq6rjr9dx1dza8bwfypfyt4x",
+          "ContentType": "Page",
+          "DisplayText": "Home",
+          "Latest": true,
+          "Published": true,
+          "ModifiedUtc": "2026-11-19T10:20:52.1603022Z",
+          "PublishedUtc": "2026-11-19T10:20:52.1607902Z",
+          "CreatedUtc": "2026-11-19T09:47:43.2884917Z",
+          "Owner": "4x612x4zgm385s6t0nn79qpy52",
+          "Author": "sudouser",
+          "Page": {},
+          "AutoroutePart": {
+            "SetHomepage": false,
+            "Disabled": false,
+            "RouteContainedItems": false,
+            "Absolute": false,
+            "Path": "home-1"
+          },
+          "LiquidPart": {
+            "Liquid": "{% assign assets = Queries.AllAsset | query %}\r\n\u003Cdiv class=\u0022assets\u0022\u003E\r\n{% for asset in assets %}\r\n  {{ asset | shape_build_display: \u0022Detail\u0022 | shape_render }}\r\n{% endfor %}\r\n\u003C/div\u003E"
+          },
+          "TitlePart": {
+            "Title": "Home"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Queries",
+      "Queries": [
+        {
+          "Name": "AllAsset",
+          "Source": "Sql",
+          "ReturnContentItems": true,
+          "Properties": {
+            "SqlQueryMetadata": {
+              "Template": "select DocumentId from ContentItemIndex\r\nwhere ContentType = \u0027Asset\u0027 and Published = true"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "media",
+      "Files": [
+        {
+          "SourcePath": "motor1.png",
+          "TargetPath": "motor1.png"
+        },
+        {
+          "SourcePath": "Pump.png",
+          "TargetPath": "Pump.png"
+        }
+      ]
+    },
+    {
+      "name": "Settings",
+      "SiteName": "LoadMonitor",
+      "HomeRoute": {
+        "Area": "OrchardCore.Contents",
+        "Controller": "Item",
+        "Action": "Display",
+        "contentItemId": "4p85gv75ethse6agnmh2bhcpcw"
+      }
+    }
+  ]
+}

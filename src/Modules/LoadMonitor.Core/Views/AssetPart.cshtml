@@ -1,0 +1,5 @@
+@model LoadMonitor.Core.ViewModels.AssetPartViewModel
+
+<p>Rated power: @Model.RatedPowerKw kW</p>
+<p>Current power: @Model.CurrentPowerW W (@Model.LoadPercent.ToString("0.0")% load)</p>
+<p>Running hours: @Model.RunningHours h</p>
