@@ -1,0 +1,16 @@
+{% assign asset = Model.ContentItem %}
+<div class="asset">
+  <h3>{{ asset.DisplayText }}</h3>
+  <p>Rated power: {{ asset.Content.Asset.RatedPowerKw.Value }} kW</p>
+  <p>Current power: {{ asset.Content.Asset.CurrentPowerW.Value }} W</p>
+  <p>Running hours: {{ asset.Content.Asset.RunningHours.Value }} h</p>
+  {% assign image = asset.Content.Asset.Image.Paths | first %}
+  {% if image %}
+    <img src="{{ image | asset_url | resize_url: width:200 }}" alt="{{ asset.DisplayText }}">
+  {% endif %}
+  {% assign field = asset.Content.Asset.Category %}
+  {% assign terms = field.TermContentItemIds | taxonomy_terms: field.TaxonomyContentItemId %}
+  {% for term in terms %}
+    <p>Category: {{ term.DisplayText }}</p>
+  {% endfor %}
+</div>
