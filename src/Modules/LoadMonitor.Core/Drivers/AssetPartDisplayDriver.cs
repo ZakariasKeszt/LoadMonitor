@@ -27,8 +27,7 @@ public sealed class AssetPartDisplayDriver(LoadReplayService replayService) : Co
 
             if (!string.IsNullOrEmpty(part.LoadProfile))
             {
-                model.CurrentPowerW = await replayService.GetCurrentAsync(part.LoadProfile, part.ContentItem.ContentItemId)
-                    ?? part.CurrentPowerW;
+                model.CurrentPowerW = await replayService.GetCurrentAsync(part.LoadProfile, part.ContentItem.ContentItemId);
             }
         })
         .Location("Detail", "Content:5")
@@ -55,13 +54,7 @@ public sealed class AssetPartDisplayDriver(LoadReplayService replayService) : Co
             context.Updater.ModelState.AddModelError($"{Prefix}.{nameof(model.RatedPowerKw)}","Rated power must be greater than zero.");
         }
 
-        if (model.CurrentPowerW < 0)
-        {
-            context.Updater.ModelState.AddModelError($"{Prefix}.{nameof(model.CurrentPowerW)}","Current power cannot be negative.");
-        }
-
         part.RatedPowerKw = model.RatedPowerKw;
-        part.CurrentPowerW = model.CurrentPowerW;
         part.RunningHours = model.RunningHours;
         part.LoadProfile = model.LoadProfile;
 
@@ -71,7 +64,6 @@ public sealed class AssetPartDisplayDriver(LoadReplayService replayService) : Co
     private static void Populate(AssetPartViewModel model, AssetPart part)
     {
         model.RatedPowerKw = part.RatedPowerKw;
-        model.CurrentPowerW = part.CurrentPowerW;
         model.RunningHours = part.RunningHours;
         model.LoadProfile = part.LoadProfile;
     }

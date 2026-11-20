@@ -1,5 +1,12 @@
 @model LoadMonitor.Core.ViewModels.AssetPartViewModel
 
 <p>Rated power: @Model.RatedPowerKw kW</p>
-<p>Current power: @Model.CurrentPowerW W (@Model.LoadPercent.ToString("0.0")% load)</p>
+@if (Model.CurrentPowerW is double power)
+{
+    <p>Current power: @power.ToString("0") W (@Model.LoadPercent?.ToString("0.0")% load)</p>
+}
+else
+{
+    <p>Current power: no live data (no load profile selected)</p>
+}
 <p>Running hours: @Model.RunningHours h</p>

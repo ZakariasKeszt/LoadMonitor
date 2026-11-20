@@ -8,7 +8,6 @@ namespace LoadMonitor.Core.Models
     public class AssetPart : ContentPart
     {
         public double RatedPowerKw { get; set; }
-        public double CurrentPowerW { get; set; }
         public double RunningHours { get; set; }
         public string LoadProfile { get; set; } = "";
     }

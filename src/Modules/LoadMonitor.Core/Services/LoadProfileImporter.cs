@@ -17,14 +17,12 @@ public sealed class LoadProfileImporter(ISession session)
 
         foreach (var resourceName in resourceNames)
         {
-            // "...Data.pump-load.csv" -> "pump-load"
             var withoutExtension = resourceName[..^".csv".Length];
-            var profile = withoutExtension[(withoutExtension.LastIndexOfAny(['.', '/', '\\', '>']) + 1)..]; //Profile name was Data>load-pump, need to add '>'
+            var profile = withoutExtension[(withoutExtension.LastIndexOfAny(['.', '/', '\\', '>']) + 1)..]; 
 
             await using var stream = assembly.GetManifestResourceStream(resourceName)!;
             using var reader = new StreamReader(stream);
 
-            // Skip header line.
             await reader.ReadLineAsync();
 
             var sequence = 0;
