@@ -5,7 +5,9 @@ using LoadMonitor.Core.Models;
 using OrchardCore.ContentManagement.Metadata;
 using OrchardCore.ContentManagement.Metadata.Settings;
 using OrchardCore.Data.Migration;
-
+using LoadMonitor.Core.Index;
+using LoadMonitor.Core.Services;
+using YesSql.Sql;
 namespace LoadMonitor.Core;
 
 /*
@@ -15,7 +17,7 @@ Methods return an int higher from the last run.
  
 */
 
-public sealed class Migrations(IContentDefinitionManager contentDefinitionManager) : DataMigration
+public sealed class Migrations(IContentDefinitionManager contentDefinitionManager, LoadProfileImporter loadProfileImporter) : DataMigration
 {
     public async Task<int> CreateAsync()
     {
@@ -30,13 +32,22 @@ public sealed class Migrations(IContentDefinitionManager contentDefinitionManage
     }
     public async Task<int> UpdateFrom1Async()
     {
-        await contentDefinitionManager.AlterPartDefinitionAsync(nameof(ReadingPart), part => part
-            .WithDisplayName("Reading Part"));
+        await SchemaBuilder.CreateMapIndexTableAsync<LoadSampleIndex>(table => table
+            .Column<string>(nameof(LoadSampleIndex.Profile), column => column.WithLength(64))
+            .Column<int>(nameof(LoadSampleIndex.Sequence))
+            .Column<double>(nameof(LoadSampleIndex.PowerW)));
 
-        await contentDefinitionManager.AlterTypeDefinitionAsync("Reading", type => type.DisplayedAs("Reading").Creatable().Listable()
-            .WithPart("TitlePart", part => part.WithPosition("0"))
-            .WithPart(nameof(ReadingPart), part => part.WithPosition("1")));
+        await SchemaBuilder.AlterIndexTableAsync<LoadSampleIndex>(table => table
+            .CreateIndex("IDX_LoadSampleIndex_Profile_Sequence",
+                "DocumentId",
+                nameof(LoadSampleIndex.Profile),
+                nameof(LoadSampleIndex.Sequence)));
 
         return 2;
+    }
+    public async Task<int> UpdateFrom2Async()
+    {
+        await loadProfileImporter.ImportAllAsync();
+        return 3;
     }
 }

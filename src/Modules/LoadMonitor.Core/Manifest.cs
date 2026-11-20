@@ -2,8 +2,7 @@ using OrchardCore.Modules.Manifest;
 
 [assembly: Module(
     Name = "LoadMonitor.Core",
-    Author = "The Orchard Core Team",
-    Website = "https://orchardcore.net",
+    Author = "Zakarias Keszthelyi",
     Version = "0.0.1",
     Description = "LoadMonitor.Core",
     Category = "Content Management"

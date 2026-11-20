@@ -7,6 +7,9 @@ using OrchardCore.ContentManagement.Display.ContentDisplay;
 using OrchardCore.ContentManagement.Display.Models;
 using OrchardCore.DisplayManagement.Views;
 using OrchardCore.DisplayManagement.ModelBinding;
+using LoadMonitor.Core.Services;
+using Microsoft.AspNetCore.Mvc.Rendering;
+
 
 namespace LoadMonitor.Core.Drivers;
 
@@ -14,18 +17,32 @@ namespace LoadMonitor.Core.Drivers;
     Display driver for the custom contents form submission 
 */
 
-public sealed class AssetPartDisplayDriver : ContentPartDisplayDriver<AssetPart>
+public sealed class AssetPartDisplayDriver(LoadReplayService replayService) : ContentPartDisplayDriver<AssetPart>
 {
     public override IDisplayResult Display(AssetPart part, BuildPartDisplayContext context)
     {
-        return Initialize<AssetPartViewModel>(GetDisplayShapeType(context), model => Populate(model, part))
-            .Location("Detail", "Content:5")
-            .Location("Summary", "Content:5");
+        return Initialize<AssetPartViewModel>(GetDisplayShapeType(context), async model =>
+        {
+            Populate(model, part);
+
+            if (!string.IsNullOrEmpty(part.LoadProfile))
+            {
+                model.CurrentPowerW = await replayService.GetCurrentAsync(part.LoadProfile, part.ContentItem.ContentItemId)
+                    ?? part.CurrentPowerW;
+            }
+        })
+        .Location("Detail", "Content:5")
+        .Location("Summary", "Content:5");
     }
 
     public override IDisplayResult Edit(AssetPart part, BuildPartEditorContext context)
     {
-        return Initialize<AssetPartViewModel>(GetEditorShapeType(context), model => Populate(model, part));
+        return Initialize<AssetPartViewModel>(GetEditorShapeType(context), async model =>
+        {
+            Populate(model, part);
+            model.Profiles = (await replayService.GetProfilesAsync())
+                .Select(profile => new SelectListItem(profile, profile));
+        });
     }
 
     public override async Task<IDisplayResult> UpdateAsync(AssetPart part, UpdatePartEditorContext context)
@@ -46,6 +63,7 @@ public sealed class AssetPartDisplayDriver : ContentPartDisplayDriver<AssetPart>
         part.RatedPowerKw = model.RatedPowerKw;
         part.CurrentPowerW = model.CurrentPowerW;
         part.RunningHours = model.RunningHours;
+        part.LoadProfile = model.LoadProfile;
 
         return await EditAsync(part, context);
     }
@@ -55,5 +73,6 @@ public sealed class AssetPartDisplayDriver : ContentPartDisplayDriver<AssetPart>
         model.RatedPowerKw = part.RatedPowerKw;
         model.CurrentPowerW = part.CurrentPowerW;
         model.RunningHours = part.RunningHours;
+        model.LoadProfile = part.LoadProfile;
     }
 }
