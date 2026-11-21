@@ -17,5 +17,8 @@
     <PackageReference Include="OrchardCore.ContentTypes.Abstractions" Version="3.0.1" />
     <PackageReference Include="OrchardCore.DisplayManagement" Version="3.0.1" />
 	<PackageReference Include="OrchardCore.ResourceManagement" Version="3.0.1" />
+	<PackageReference Include="OrchardCore.Taxonomies" Version="3.0.1" />
+	<PackageReference Include="OrchardCore.Taxonomies.Core" Version="3.0.1" />
+	<PackageReference Include="OrchardCore.Title" Version="3.0.1" />
   </ItemGroup>
 </Project>

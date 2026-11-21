@@ -5,5 +5,6 @@ using OrchardCore.Modules.Manifest;
     Author = "Zakarias Keszthelyi",
     Version = "0.0.1",
     Description = "LoadMonitor.Core",
-    Category = "Content Management"
+    Category = "Content Management",
+    Dependencies = new[] { "OrchardCore.Taxonomies" }
 )]
