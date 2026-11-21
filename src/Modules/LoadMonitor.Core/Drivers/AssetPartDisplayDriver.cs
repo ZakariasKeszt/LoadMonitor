@@ -1,15 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using LoadMonitor.Core.Models;
+﻿using LoadMonitor.Core.Models;
 using LoadMonitor.Core.ViewModels;
 using OrchardCore.ContentManagement.Display.ContentDisplay;
 using OrchardCore.ContentManagement.Display.Models;
 using OrchardCore.DisplayManagement.Views;
-using OrchardCore.DisplayManagement.ModelBinding;
 using LoadMonitor.Core.Services;
 using Microsoft.AspNetCore.Mvc.Rendering;
-
+using OrchardCore.Modules;
 
 namespace LoadMonitor.Core.Drivers;
 
@@ -17,11 +13,12 @@ namespace LoadMonitor.Core.Drivers;
     Display driver for the custom contents form submission 
 */
 
-public sealed class AssetPartDisplayDriver(LoadReplayService replayService) : ContentPartDisplayDriver<AssetPart>
+public sealed class AssetPartDisplayDriver(LoadReplayService replayService, IClock clock) : ContentPartDisplayDriver<AssetPart>
 {
+    private const int ChartSamples = 60;
     public override IDisplayResult Display(AssetPart part, BuildPartDisplayContext context)
     {
-        return Initialize<AssetPartViewModel>(GetDisplayShapeType(context), async model =>
+        var details = Initialize<AssetPartViewModel>(GetDisplayShapeType(context), async model =>
         {
             Populate(model, part);
 
@@ -32,6 +29,29 @@ public sealed class AssetPartDisplayDriver(LoadReplayService replayService) : Co
         })
         .Location("Detail", "Content:5")
         .Location("Summary", "Content:5");
+
+        if (string.IsNullOrEmpty(part.LoadProfile))
+        {
+            return details;
+        }
+
+        var chart = Initialize<AssetChartViewModel>("AssetLoadChart", async model =>
+        {
+            var values = await replayService.GetRecentAsync(part.LoadProfile, part.ContentItem.ContentItemId, ChartSamples);
+            var now = clock.UtcNow;
+
+            model.PowerW = values;
+            model.RatedPowerW = part.RatedPowerKw * 1000;
+
+            model.Labels = values
+                .Select((_, i) => now.AddSeconds(-(values.Count - 1 - i) * LoadReplayService.StepSeconds)
+                    .ToLocalTime()
+                    .ToString("HH:mm:ss"))
+                .ToList();
+        })
+        .Location("Detail", "Content:10");
+
+        return Combine(details, chart);
     }
 
     public override IDisplayResult Edit(AssetPart part, BuildPartEditorContext context)

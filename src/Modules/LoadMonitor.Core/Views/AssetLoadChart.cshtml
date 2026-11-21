@@ -1,0 +1,27 @@
+@using System.Text.Json
+@model LoadMonitor.Core.ViewModels.AssetChartViewModel
+
+<div style="max-width: 800px;">
+    <canvas id="load-chart"></canvas>
+</div>
+
+<script asp-src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+<script>
+    (() => {
+        const labels = @Html.Raw(JsonSerializer.Serialize(Model.Labels));
+        const power = @Html.Raw(JsonSerializer.Serialize(Model.PowerW));
+        const rated = @Html.Raw(JsonSerializer.Serialize(Model.RatedPowerW));
+
+        new Chart(document.getElementById('load-chart'), {
+            type: 'line',
+            data: {
+                labels,
+                datasets: [
+                    { label: 'Power (W)', data: power, borderColor: 'steelblue', pointRadius: 0, tension: 0.2 },
+                    { label: 'Rated power (W)', data: labels.map(() => rated), borderColor: 'red', borderDash: [6, 4], pointRadius: 0 }
+                ]
+            },
+            options: { animation: false, scales: { y: { beginAtZero: true } } }
+        });
+    })();
+</script>
