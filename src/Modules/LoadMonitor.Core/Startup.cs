@@ -29,7 +29,7 @@ public sealed class Startup : StartupBase
         routes.MapAreaControllerRoute(
             name: "Home",
             areaName: "LoadMonitor.Core",
-            pattern: "Home/Index",
+            pattern: "assets",
             defaults: new { controller = "Home", action = "Index" }
         );
     }

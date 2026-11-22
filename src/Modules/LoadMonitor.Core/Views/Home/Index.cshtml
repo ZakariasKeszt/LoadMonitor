@@ -1,1 +1,39 @@
-﻿Template
+﻿@model LoadMonitor.Core.ViewModels.HomeIndexViewModel
+
+<h1>Assets</h1>
+
+<nav class="category-filter">
+    <a asp-action="Index" class="@(Model.SelectedCategory is null ? "active" : "")">All</a>
+    @foreach (var category in Model.Categories)
+    {
+        <a asp-action="Index" asp-route-category="@category"
+           class="@(category == Model.SelectedCategory ? "active" : "")">@category</a>
+    }
+</nav>
+
+@if (Model.Assets.Count == 0)
+{
+    <p>No assets found.</p>
+}
+
+<div class="asset-cards">
+    @foreach (var asset in Model.Assets)
+    {
+        <div class="asset-card">
+            <h2>
+                <a asp-area="OrchardCore.Contents" asp-controller="Item" asp-action="Display"
+                   asp-route-contentItemId="@asset.ContentItemId">@asset.DisplayText</a>
+            </h2>
+            <p>Category: @(asset.Category ?? "-")</p>
+            <p>Rated power: @asset.RatedPowerKw kW</p>
+            @if (asset.CurrentPowerW is double power)
+            {
+                <p>Current power: @power.ToString("0") W (@asset.LoadPercent?.ToString("0.0")% load)</p>
+            }
+            else
+            {
+                <p>Current power: no live data</p>
+            }
+        </div>
+    }
+</div>

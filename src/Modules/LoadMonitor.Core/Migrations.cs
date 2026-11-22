@@ -12,7 +12,8 @@ using OrchardCore.ContentManagement;
 using OrchardCore.Taxonomies.Models;
 using OrchardCore.Taxonomies.Settings;
 using OrchardCore.Title.Models;
-
+using Microsoft.AspNetCore.Routing;
+using OrchardCore.Settings;
 
 namespace LoadMonitor.Core;
 
@@ -23,7 +24,7 @@ Methods return an int higher from the last run.
  
 */
 
-public sealed class Migrations(IContentDefinitionManager contentDefinitionManager, LoadProfileImporter loadProfileImporter, IContentManager contentManager) : DataMigration
+public sealed class Migrations(IContentDefinitionManager contentDefinitionManager, LoadProfileImporter loadProfileImporter, IContentManager contentManager, ISiteService siteService) : DataMigration
 {
     public async Task<int> CreateAsync()
     {
@@ -100,5 +101,18 @@ public sealed class Migrations(IContentDefinitionManager contentDefinitionManage
                 })));
 
         return 4;
+    }
+    public async Task<int> UpdateFrom4Async()
+    {
+        var site = await siteService.LoadSiteSettingsAsync();
+        site.HomeRoute = new RouteValueDictionary
+    {
+        { "Area", "LoadMonitor.Core" },
+        { "Controller", "Home" },
+        { "Action", "Index" },
+    };
+        await siteService.UpdateSiteSettingsAsync(site);
+
+        return 5;
     }
 }
